@@ -9,9 +9,25 @@ export default async function middleware(req: Request) {
 
     const user = getSession();
 
+
     if (isRootPath && user !== null) {
         const newUrl = new URL(req.url);
         newUrl.pathname = '/userDashboard';
+        return NextResponse.redirect(newUrl);
+    }
+    const isUserDashboardPath = url.endsWith("/userDashboard");
+
+    if (isUserDashboardPath && user === null) {
+        const newUrl = new URL(req.url);
+        newUrl.pathname = '/auth/login';
+        return NextResponse.redirect(newUrl);
+    }
+
+    const isCreateProjectPath = url.endsWith("/createProject");
+    
+    if (isCreateProjectPath && user === null) {
+        const newUrl = new URL(req.url);
+        newUrl.pathname = '/auth/login';
         return NextResponse.redirect(newUrl);
     }
 
@@ -23,9 +39,10 @@ export default async function middleware(req: Request) {
         return NextResponse.redirect(newUrl);
     }
 
-    if(user === null){
+    if(!user){
         return NextResponse.next();
     }
 
-    return updateAndPassCookies(req);
+
+    return updateAndPassCookies(req);    
 }

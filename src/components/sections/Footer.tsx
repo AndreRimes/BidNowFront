@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { JSX, SVGProps } from "react"
 
-export default function Component() {
+export default function Footer() {
   return (
     <section className="w-full py-12 md:py-24 lg:py-32 bg-zinc-900 dark:bg-zinc-100 flex items-center justify-center">
         <div className="container px-4 md:px-6 flex flex-col   items-center justify-center text-center">

@@ -1,7 +1,16 @@
+"use client"
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
 export default function Hero() {
+
+  const handleClick = () => {
+    const products = document.getElementById("products");
+    if(!products) return;
+    products.scrollIntoView({ behavior: "smooth" });
+  }
+
+
   return (
     <>
       {/* Hero */}
@@ -37,7 +46,7 @@ export default function Hero() {
                 <Link href={"/auth/login"}>
                   <Button size={"lg"}>Login</Button>
                 </Link>
-                <Button size={"lg"} variant={"outline"}>
+                <Button onClick={() => handleClick()} size={"lg"} variant={"outline"}>
                   Ver Produtos
                 </Button>
               </div>

@@ -1,5 +1,5 @@
 import axios from "axios"
-import { createUserDto, loginUserDto } from "./types";
+import { createUserDto, loginUserDto, Product } from "./types";
 
 export const api = axios.create({
     baseURL: "http://localhost:3333",
@@ -24,4 +24,47 @@ export const loginUser = async (data: loginUserDto) => {
 export const logout = async () => {
     const res = await internalAPI.get("/api/auth/logout");
     return res
+}
+
+export const createProduct = async (data: FormData) => {
+    const res = await api.post("/products", data, 
+        {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        }
+);
+    return res;
+}
+
+export const getProductsWhereUserBid = async (): Promise<Product[]> => {
+    const res = await api.get("/products/where-user-bid");
+    return res.data;
+}
+
+export const getHiglightProduct = async (): Promise<Product> => {
+    const res = await api.get("/products/highlight");
+    return res.data;
+}
+
+
+export const getAllProducts = async (): Promise<Product[]> => {
+    const res = await api.get("/products");
+    return res.data;
+}
+
+export const getHiglightProducts = async (): Promise<Product[]> => {
+    const res = await api.get("/products/all-highlight");
+    return res.data;
+}
+
+
+export const getMyProducts = async (): Promise<Product[]> => {
+    const res = await api.get("/products/my-products");
+    return res.data;
+}
+
+export const getProductById = async (id: string): Promise<Product> => {
+    const res = await api.get(`/products/${id}`);
+    return res.data;
 }
