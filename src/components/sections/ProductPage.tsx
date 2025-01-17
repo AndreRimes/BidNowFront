@@ -16,7 +16,8 @@ import { io, Socket } from 'socket.io-client';
 import { Bid, userSession } from "@/utils/types"
 import { useToast } from "@/hooks/use-toast"
 import { useRouter } from "next/navigation"
-import { Dialog } from "@radix-ui/react-dialog"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
+import { deleteProduct } from "@/utils/api"
 
 
 export default function ProductPage({ id, user }: { id: string, user: userSession | null }) {
@@ -24,8 +25,20 @@ export default function ProductPage({ id, user }: { id: string, user: userSessio
   const [bids, setBids] = useState(product ? product.bids : []);
   const [bidAmount, setBidAmount] = useState<number>(product ? product.minimalPrice : 0);
   const router = useRouter();
+  const queryClient = useQueryClient();
+  const {toast} = useToast();
+  const {mutate:deleteMutate} = useMutation({
+    mutationFn: deleteProduct,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["products"] });
+      toast({
+        title: "Produto excluído com sucesso",
+        description: "Produto excluído com sucesso",
+      });
+      router.push("/");
+    },
+  });
 
-  const { toast } = useToast();
 
   useEffect(() => {
     const socket = io('http://localhost:3334', {
@@ -111,7 +124,12 @@ export default function ProductPage({ id, user }: { id: string, user: userSessio
           <h2 className="text-2xl font-bold text-center">{product.title}</h2>
         </div>
       
-        <div className="space-y-4 lg:pt-12">
+        <div className="space-y-4">
+          <div className="flex items-center justify-center w-full ">
+            <Button className = "w-1/4"variant={"destructive"} onClick={() => deleteMutate(product.id)}>
+              Excluir
+            </Button>
+          </div>
           <Card>
             <CardHeader>
               <CardTitle>Product Description</CardTitle>

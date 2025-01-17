@@ -68,3 +68,8 @@ export const getProductById = async (id: string): Promise<Product> => {
     const res = await api.get(`/products/${id}`);
     return res.data;
 }
+
+export const deleteProduct = async (id: string) => {
+    const res = await api.delete(`/products/${id}`);
+    return res;
+}
