@@ -13,15 +13,17 @@ import { Button } from "../ui/button"
 import { useGetProductById } from "@/utils/useQueryHooks"
 import { useEffect, useRef, useState } from 'react';
 import { io, Socket } from 'socket.io-client';
-import { Bid } from "@/utils/types"
+import { Bid, userSession } from "@/utils/types"
 import { useToast } from "@/hooks/use-toast"
-import { set } from "react-hook-form"
+import { useRouter } from "next/navigation"
+import { Dialog } from "@radix-ui/react-dialog"
 
 
-export default function ProductPage({ id }: { id: string }) {
+export default function ProductPage({ id, user }: { id: string, user: userSession | null }) {
   const { data: product, isLoading, error } = useGetProductById(id);
   const [bids, setBids] = useState(product ? product.bids : []);
   const [bidAmount, setBidAmount] = useState<number>(product ? product.minimalPrice : 0);
+  const router = useRouter();
 
   const { toast } = useToast();
 
@@ -153,13 +155,29 @@ export default function ProductPage({ id }: { id: string }) {
                 ))}
               </ScrollArea>
               <div className="flex items-center justify-center gap-2">
-                <Input
-                  type="number"
-                  placeholder="Entre com o valor da sua lance"
-                  onChange={(e) => setBidAmount(Number(e.target.value))}
-                  value={bidAmount}
-                />
-                <Button onClick={() => placeBid()}>Fazer Lance</Button>
+                {
+                  !user ?
+                    <>
+                      <Button onClick={() => router.push("/auth/login")}>Fazer Lance</Button>
+                    </>
+                    : (
+                      <>
+                        {
+                          product.user.id === user?.id ?
+                            <Button>Vender o produto</Button>
+                            :
+                            <>
+                              <Input
+                                type="number"
+                                placeholder="Entre com o valor do seu lance"
+                                onChange={(e) => setBidAmount(Number(e.target.value))}
+                                value={bidAmount} />
+                              <Button onClick={() => placeBid()}>Fazer Lance</Button>
+                            </>
+                        }
+                      </>
+                    )
+                } 
               </div>
             </CardContent>
           </Card>

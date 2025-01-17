@@ -28,9 +28,10 @@ export type Product = {
     description: string,
     minimalPrice: number,
     createdAt: string,
-    updatedAt: string
-    bids: Bid[]
-    files: File[]
+    updatedAt: string,
+    user: User,
+    bids: Bid[],
+    files: File[],
 }
 
 export type User = {

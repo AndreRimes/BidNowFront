@@ -1,13 +1,17 @@
 "use client"
-
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useGetHighlightProduct } from "@/utils/useQueryHooks";
-import { title } from "process";
+import { Router } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { io } from "socket.io-client";
 
 export default function HeroProduct() {
     const { data: hightlightProduct, isLoading, error } = useGetHighlightProduct();
+    const [bidAmount, setBidAmount] = useState<number>(hightlightProduct ? hightlightProduct.minimalPrice : 0);
+    const router = useRouter();
 
     if (isLoading) {
         return <div>Carregando produto...</div>
@@ -17,7 +21,20 @@ export default function HeroProduct() {
         return <div>Erro ao carregar produto</div>
     }
 
-    console.log(hightlightProduct);
+    function handleClick() {
+        const socket = io('http://localhost:3334', {
+            withCredentials: true,
+        });
+
+        if (!hightlightProduct) return;
+
+        socket.emit('joinRoom', { productId: hightlightProduct.id });
+        const max = hightlightProduct.bids.reduce((maxBid, bid) => bid.amount > maxBid.amount ? bid : maxBid, { amount: hightlightProduct.minimalPrice });
+        if (bidAmount && bidAmount > hightlightProduct.minimalPrice && bidAmount > max.amount) {
+            socket.emit('placeBid', { productId: hightlightProduct.id, amount: bidAmount });
+        }
+        router.push("/product/" + hightlightProduct.id);
+    }
 
     return (
         <div className="flex flex-grow items-center justify-center">
@@ -35,12 +52,16 @@ export default function HeroProduct() {
                         <div className="w-full  mt-5 lg:mt-8 flex flex-col sm:items-center gap-2 sm:flex-col sm:gap-3">
                             <div className="w-full flex gap-10  text-lg font-semibold">
                                 <h2>Lance inicial: <span className="text-primary">${hightlightProduct.minimalPrice} </span></h2>
-                                <h2>Preco Atual: <span className="text-primary">R${100}</span></h2>
+                                <h2>
+                                    Preco Atual: <span className="text-primary">
+                                        R${hightlightProduct.bids.reduce((maxBid, bid) => bid.amount > maxBid.amount ? bid : maxBid, { amount: hightlightProduct.minimalPrice }).amount}
+                                    </span>
+                                </h2>
                             </div>
                             <div className="w-full flex  gap-10 items-center ">
                                 <Label className="sr-only">Search</Label>
-                                <Input className="w-2/3" placeholder="Fazer um lance" type="number" />
-                                <Button className="w-min">Fazer lance</Button>
+                                <Input value={bidAmount} onChange={(e) => setBidAmount(Number(e.target.value))} className="w-2/3" placeholder="Fazer um lance" type="number" />
+                                <Button onClick={() => handleClick()} className="w-min">Fazer lance</Button>
                             </div>
 
                         </div>
