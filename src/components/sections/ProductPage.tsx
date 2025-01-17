@@ -125,11 +125,13 @@ export default function ProductPage({ id, user }: { id: string, user: userSessio
         </div>
       
         <div className="space-y-4">
-          <div className="flex items-center justify-center w-full ">
-            <Button className = "w-1/4"variant={"destructive"} onClick={() => deleteMutate(product.id)}>
-              Excluir
-            </Button>
-          </div>
+          {product.user.id === user?.id && (
+            <div className="flex items-center justify-center w-full ">
+              <Button className = "w-1/4"variant={"destructive"} onClick={() => deleteMutate(product.id)}>
+                Excluir
+              </Button>
+            </div>
+          )}
           <Card>
             <CardHeader>
               <CardTitle>Product Description</CardTitle>
