@@ -19,28 +19,25 @@ import { useRouter } from "next/navigation"
 import { ConfirmationModal } from "../ui/confirmation-modal"
 import { updateProductStatus } from "@/utils/api"
 import { BuyerInfoModal } from "../ui/buyer-modal"
-import { QueryClient, useMutation, useQueryClient } from "@tanstack/react-query"
-import { deleteProduct } from "@/utils/api"
+import { QueryClient, useMutation } from "@tanstack/react-query"
+import Image from "next/image"
 
 
 export default function ProductPage({ id, user }: { id: string, user: userSession | null }) {
   const { data: product, isLoading, error } = useGetProductById(id);
   const [bids, setBids] = useState(product ? product.bids : []);
-  const [bidAmount, setBidAmount] = useState<number>(product ? product.minimalPrice : 0);
-  const router = useRouter();
-  const queryClient = useQueryClient();
-  const {toast} = useToast();
-  const {mutate:deleteMutate} = useMutation({
-    mutationFn: deleteProduct,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["products"] });
-      toast({
-        title: "Produto excluído com sucesso",
-        description: "Produto excluído com sucesso",
-      });
-      router.push("/");
-    },
-  });
+
+  // const {mutate:deleteMutate} = useMutation({
+  //   mutationFn: deleteProduct,
+  //   onSuccess: () => {
+  //     queryClient.invalidateQueries({ queryKey: ["products"] });
+  //     toast({
+  //       title: "Produto excluído com sucesso",
+  //       description: "Produto excluído com sucesso",
+  //     });
+  //     router.push("/");
+  //   },
+  // });
 
 
   useEffect(() => {
@@ -85,8 +82,6 @@ export default function ProductPage({ id, user }: { id: string, user: userSessio
       
         <div className="space-y-4 ">
           <ProductDescription product={product} />
-        
-        
           <Card>
             <CardHeader>
               <CardTitle>Bid History</CardTitle>
@@ -112,7 +107,7 @@ const ProductImage = ({ product }: { product: Product }) => {
               {product.files.map((img, index) => (
                 <CarouselItem key={index}>
                   <div className="aspect-[9/13] relative overflow-hidden rounded-lg">
-                    <img 
+                    <Image
                       src={img.url} 
                       alt={`Product image ${index + 1}`} 
                       className="absolute inset-0 w-full h-full object-cover"
