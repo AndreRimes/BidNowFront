@@ -8,6 +8,7 @@ import { Product } from "@/utils/types";
 
 
 export default function ProductCard({ product }: { product: Product }) {
+  console.log(product);
   return (
     <Link href={"/product/" + product.id}>
       <Card className="group relative space-y-4 overflow-hidden">
@@ -35,7 +36,13 @@ export default function ProductCard({ product }: { product: Product }) {
                   {product.title}
                 </Link>
               </h3>
-              {/* <p className="text-sm text-muted-foreground">{product.category}</p> */}
+              <div className="text-sm text-muted-foreground">
+                {product.tags.map((tag, index) => (
+                  <span key={index} className="mr-2">
+                    {tag.name}
+                  </span>
+                ))}
+              </div>
             </div>
             <p className="text-lg font-semibold">{product.minimalPrice}</p>
           </div>

@@ -1,21 +1,20 @@
 "use client"
-import { useGetAllProducts, useGetProductsWhereUserBid } from "@/utils/useQueryHooks";
+import { useGetTaggedProducts, useGetProductsWhereUserBid } from "@/utils/useQueryHooks";
 import CarouselSpacing from "../ui/carousel-spacing";
 
 
 
 export default function ProductSectionUser() {
-    const { data: allProducts, isLoading, error } = useGetAllProducts();
+    const { data: taggedProducts, isLoading, error } = useGetTaggedProducts();
     const {data: bidProducts, isLoading: isBidLoading, error: bidError} = useGetProductsWhereUserBid();
     
     if (isLoading || isBidLoading) {
         return <div>Carregando produtos...</div>
     }
-
-    if (error || !allProducts  || bidError) {
+    console.log(taggedProducts);
+    if (error || !taggedProducts  || bidError) {
         return <div>Erro ao carregar produtos</div>
     }
-
 
     return (
         <div className="flex flex-col items-center py-10 gap-20">
@@ -23,7 +22,7 @@ export default function ProductSectionUser() {
 
             <div className="w-11/12">
                 <h3 className="text-xl">Todos os Recomendados: </h3>
-                <CarouselSpacing products={allProducts} />
+                <CarouselSpacing products={taggedProducts} />
             </div>
 
             <div className="w-11/12">

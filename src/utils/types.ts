@@ -32,6 +32,7 @@ export type Product = {
     user: User,
     bids: Bid[],
     files: File[],
+    tags: Tags[],
 }
 
 export type User = {

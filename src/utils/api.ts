@@ -88,3 +88,8 @@ export const updateUserPreferredTags = async (data: {tags: Tags[] }) => {
     const res = await api.post(`/user/tags`, { tags: data.tags });
     return res.data;
 };
+
+export const getProductsByUserTags = async (): Promise<Product[]> => {
+    const response = await api.get(`/products/tags`);
+    return response.data;
+}

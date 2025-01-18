@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { getAllProducts, getHiglightProduct, getHiglightProducts, getMyProducts, getProductById, getProductsWhereUserBid } from "./api";
+import { getAllProducts, getHiglightProduct, getHiglightProducts, getMyProducts, getProductById, getProductsWhereUserBid, getProductsByUserTags } from "./api";
 
 
 
@@ -16,6 +16,17 @@ export const useGetAllProducts = () => {
     return { data, isLoading, error };
 }
 
+export const useGetTaggedProducts = () => {
+    const { data, isLoading, error } = useQuery({
+        queryKey: ["tagged-products", "products"],
+        queryFn: () => getProductsByUserTags(),
+        refetchOnWindowFocus: true,
+        refetchOnMount: true,
+        refetchOnReconnect: true,
+        refetchInterval: 1000 * 60,
+    });
+    return { data, isLoading, error };
+}
 
 export const useGetHighlightProducts = () => {
     const { data, isLoading, error } = useQuery({

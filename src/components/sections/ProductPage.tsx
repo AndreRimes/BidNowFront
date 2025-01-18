@@ -155,6 +155,13 @@ export default function ProductPage({ id, user }: { id: string, user: userSessio
                 <p className="text-lg font-semibold">
                   R${bids.reduce((maxBid, bid) => bid.amount > maxBid.amount ? bid : maxBid, { amount: product.minimalPrice }).amount}
                 </p>
+                <div className="flex flex-wrap justify py-1 gap-1">
+                  {product.tags.map((tag, index) => (
+                  <span key={index} className="mr-1 px-2 py-1 bg-primary rounded-lg text-white text-sm">
+                    {tag.name}
+                  </span>
+                ))}
+            </div>
               </div>
               <ScrollArea className="h-[200px] w-full rounded-md border p-4">
                 {[...bids].reverse().map((bid, index) => (
