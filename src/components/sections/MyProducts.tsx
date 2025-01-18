@@ -4,7 +4,6 @@ import { Button } from "../ui/button";
 import { Card, CardContent } from "../ui/card";
 import { AspectRatio } from "../ui/aspect-ratio";
 import Image from "next/image";
-import { Badge } from "../ui/badge";
 import { Product } from "@/utils/types";
 import { useGetMyProducts } from "@/utils/useQueryHooks";
 

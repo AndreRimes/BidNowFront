@@ -20,9 +20,6 @@ export default function NavBar() {
       <div className="flex items-center gap-4">
         {userInfo ?(
           <>
-            <Link href={"/cart"}>
-              <Button>Meu Favoritos</Button>
-            </Link>
             <Link href={"/profile"}>
               <Button variant={"outline"}>Me Perfil</Button>
             </Link>
