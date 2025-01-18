@@ -71,6 +71,8 @@ export default function HeroProduct() {
                     {/* End Col */}
                     <div className="lg:col-span-4 mt-10 lg:mt-0">
                         <Image
+                            width={300}
+                            height={500}
                             className="w-full rounded-xl"
                             src={hightlightProduct.files[0]?.url}
                             alt="Image Description"

@@ -10,7 +10,7 @@ export async function updateAndPassCookies(req: Request) {
         const cookieValue = req.headers.get('cookie');
 
         const response = await axios.post(
-            "http://localhost:3333/auth/update-payload",
+            `${process.env.NEXT_PUBLIC_BACK_URL}/auth/update-payload`,
             {},
             {
                 headers: {

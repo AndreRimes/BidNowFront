@@ -47,7 +47,7 @@ function ProductGrid({ products }: { products: Product[] }) {
               <Card className="overflow-hidden">
                 <CardContent className="p-0">
                   <AspectRatio ratio={16 / 9}>
-                    <Image
+                    <Image 
                       src={product?.files[0]?.url}
                       alt={product.title}
                       fill

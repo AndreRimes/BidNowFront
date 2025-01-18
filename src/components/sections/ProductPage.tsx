@@ -108,6 +108,8 @@ const ProductImage = ({ product }: { product: Product }) => {
                 <CarouselItem key={index}>
                   <div className="aspect-[9/13] relative overflow-hidden rounded-lg">
                     <Image
+                      width={300}
+                      height={500}
                       src={img.url} 
                       alt={`Product image ${index + 1}`} 
                       className="absolute inset-0 w-full h-full object-cover"

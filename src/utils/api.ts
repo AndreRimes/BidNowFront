@@ -61,6 +61,7 @@ export const getHiglightProducts = async (): Promise<Product[]> => {
 
 export const getMyProducts = async (): Promise<Product[]> => {
     const res = await api.get("/products/my-products");
+    console.log(res);
     return res.data;
 }
 
