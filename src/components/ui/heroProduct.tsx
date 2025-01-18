@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useGetHighlightProduct } from "@/utils/useQueryHooks";
-import { Router } from "lucide-react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { io } from "socket.io-client";
@@ -25,6 +25,7 @@ export default function HeroProduct() {
         const socket = io('http://localhost:3334', {
             withCredentials: true,
         });
+
 
         if (!hightlightProduct) return;
 
@@ -69,7 +70,7 @@ export default function HeroProduct() {
                     </div>
                     {/* End Col */}
                     <div className="lg:col-span-4 mt-10 lg:mt-0">
-                        <img
+                        <Image
                             className="w-full rounded-xl"
                             src={hightlightProduct.files[0]?.url}
                             alt="Image Description"

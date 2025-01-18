@@ -24,17 +24,17 @@ export default function Login() {
     }),
     onSubmit: async (values) => {
       try{
-        const user = await loginUser(values);
+        await loginUser(values);
         toast({
           title: "Login realizado com sucesso",
           description: "Login realizado com sucesso",
         })
         router.push("/");
       }
-      catch(error: any){
+      catch(error){
         toast({
           title: "Erro ao realizar o login",
-          description: error.message,
+          description: error instanceof Error ? error.message : 'Erro desconhecido',
         })
       }
     }, 

@@ -1,6 +1,6 @@
 'use client'
 import { useState } from 'react'
-import { Router, Upload, X } from 'lucide-react'
+import { Upload, X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
@@ -86,7 +86,7 @@ export default function CreateProjectForm() {
                             formData.append("description", values.description);
                             formData.append("minimalPrice", values.price);
                         
-                            files.forEach((fileItem, index) => {
+                            files.forEach((fileItem) => {
                                 const fileObject = new File([fileItem], fileItem.name, { type: fileItem.type });
                                 formData.append('files', fileObject);
                             });
@@ -95,7 +95,7 @@ export default function CreateProjectForm() {
                         }
                     }
                     >
-                        {({ isSubmitting }) => (
+                        {({ }) => (
                             <Form className="space-y-6">
                                 <div className="space-y-2">
                                     <Label htmlFor="title">Título do produto</Label>
