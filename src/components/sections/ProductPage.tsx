@@ -20,12 +20,29 @@ import { ConfirmationModal } from "../ui/confirmation-modal"
 import { QueryClient, useMutation } from "@tanstack/react-query"
 import { updateProductStatus } from "@/utils/api"
 import { BuyerInfoModal } from "../ui/buyer-modal"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
+import { deleteProduct } from "@/utils/api"
 
 
 export default function ProductPage({ id, user }: { id: string, user: userSession | null }) {
   const { data: product, isLoading, error } = useGetProductById(id);
-
   const [bids, setBids] = useState(product ? product.bids : []);
+  const [bidAmount, setBidAmount] = useState<number>(product ? product.minimalPrice : 0);
+  const router = useRouter();
+  const queryClient = useQueryClient();
+  const {toast} = useToast();
+  const {mutate:deleteMutate} = useMutation({
+    mutationFn: deleteProduct,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["products"] });
+      toast({
+        title: "Produto excluído com sucesso",
+        description: "Produto excluído com sucesso",
+      });
+      router.push("/");
+    },
+  });
+
 
   useEffect(() => {
     const socket = io('http://localhost:3334', {

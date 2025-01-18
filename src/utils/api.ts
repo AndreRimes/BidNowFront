@@ -72,4 +72,7 @@ export const getProductById = async (id: string): Promise<Product> => {
 export const updateProductStatus = async (id: string, status: ProductStatus): Promise<Product> => {
     const res = await api.patch(`/products/status/${id}`, { status });
     return res.data;
+export const deleteProduct = async (id: string) => {
+    const res = await api.delete(`/products/${id}`);
+    return res;
 }

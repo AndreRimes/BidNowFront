@@ -9,7 +9,7 @@ import { Label } from '@/components/ui/label'
 import { Formik, Field, Form, ErrorMessage } from 'formik'
 import * as Yup from 'yup'
 import { toast } from '@/hooks/use-toast'
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { createProduct } from '@/utils/api'
 import { useRouter } from 'next/navigation'
 
@@ -27,9 +27,11 @@ const validationSchema = Yup.object({
 export default function CreateProjectForm() {
     const router = useRouter();
     const [files, setFiles] = useState<File[]>([]);
+    const queryClient = useQueryClient();
     const {mutate: create} = useMutation({
         mutationFn: createProduct,
         onSuccess: () => {
+            queryClient.invalidateQueries({queryKey:["products"]});
             toast({
                 title: "Produto criado com sucesso",
                 description: "Produto criado com sucesso",
