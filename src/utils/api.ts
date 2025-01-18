@@ -1,5 +1,5 @@
 import axios from "axios"
-import { createUserDto, loginUserDto, Product } from "./types";
+import { createUserDto, loginUserDto, Product, Tags } from "./types";
 
 export const api = axios.create({
     baseURL: "http://localhost:3333",
@@ -73,3 +73,18 @@ export const deleteProduct = async (id: string) => {
     const res = await api.delete(`/products/${id}`);
     return res;
 }
+
+export const getTags = async (): Promise<Tags[]> => {
+    const res = await api.get("/tags");
+    return res.data; 
+}
+
+export const getUserPreferredTags = async () : Promise<Tags[]> => {
+    const res = await api.get(`/user/tags`); 
+    return res.data;
+};
+
+export const updateUserPreferredTags = async (data: {tags: Tags[] }) => {
+    const res = await api.post(`/user/tags`, { tags: data.tags });
+    return res.data;
+};

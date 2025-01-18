@@ -57,3 +57,9 @@ export type File = {
     name: string,
     url: string,
 }
+
+
+export type Tags = {
+    id: string,
+    name: string
+}
