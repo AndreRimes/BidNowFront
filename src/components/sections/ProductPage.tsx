@@ -17,10 +17,9 @@ import { Bid, Product, ProductStatus, userSession } from "@/utils/types"
 import { useToast } from "@/hooks/use-toast"
 import { useRouter } from "next/navigation"
 import { ConfirmationModal } from "../ui/confirmation-modal"
-import { QueryClient, useMutation } from "@tanstack/react-query"
 import { updateProductStatus } from "@/utils/api"
 import { BuyerInfoModal } from "../ui/buyer-modal"
-import { useMutation, useQueryClient } from "@tanstack/react-query"
+import { QueryClient, useMutation, useQueryClient } from "@tanstack/react-query"
 import { deleteProduct } from "@/utils/api"
 
 
