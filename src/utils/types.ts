@@ -27,6 +27,7 @@ export type Product = {
     title: string
     description: string,
     minimalPrice: number,
+    status: ProductStatus,
     createdAt: string,
     updatedAt: string,
     user: User,
@@ -63,4 +64,8 @@ export type File = {
 export type Tags = {
     id: string,
     name: string
+}
+export enum ProductStatus {
+    ACTIVE = "ACTIVE",
+    SOLD = "SOLD",
 }

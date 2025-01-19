@@ -1,13 +1,13 @@
 import axios from "axios"
-import { createUserDto, loginUserDto, Product, Tags } from "./types";
+import { createUserDto, loginUserDto, Product, Tags, ProductStatus } from "./types";
 
 export const api = axios.create({
-    baseURL: "http://localhost:3333",
+    baseURL: process.env.NEXT_PUBLIC_BACK_URL,
     withCredentials: true,
 })
 
 export const internalAPI = axios.create({
-    baseURL: "http://localhost:3000",
+    baseURL: "/",
     withCredentials: true,
 })
 
@@ -61,11 +61,17 @@ export const getHiglightProducts = async (): Promise<Product[]> => {
 
 export const getMyProducts = async (): Promise<Product[]> => {
     const res = await api.get("/products/my-products");
+    console.log(res);
     return res.data;
 }
 
 export const getProductById = async (id: string): Promise<Product> => {
     const res = await api.get(`/products/${id}`);
+    return res.data;
+}
+
+export const updateProductStatus = async (id: string, status: ProductStatus): Promise<Product> => {
+    const res = await api.patch(`/products/status/${id}`, { status });
     return res.data;
 }
 

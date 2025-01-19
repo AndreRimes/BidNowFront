@@ -1,5 +1,4 @@
 import { api } from "@/utils/api";
-import { cookies } from "next/headers";
 
 
 export async function POST(req: Request ) {

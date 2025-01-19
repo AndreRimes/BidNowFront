@@ -5,6 +5,7 @@
  */
 import { Button } from "@/components/ui/button"
 import { JSX, SVGProps } from "react"
+import Image from "next/image"
 
 export default function ImageUploader() {
   return (
@@ -33,7 +34,7 @@ export default function ImageUploader() {
               className="flex items-center justify-between rounded-md bg-gray-100 px-4 py-3 dark:bg-gray-800"
             >
               <div className="flex items-center gap-3">
-                <img
+                <Image
                   src="/placeholder.svg"
                   alt={file.name}
                   width={40}

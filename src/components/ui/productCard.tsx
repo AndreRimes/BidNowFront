@@ -1,9 +1,8 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { HeartIcon, PlusIcon } from "lucide-react";
+import { PlusIcon } from "lucide-react";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
-import blackScreen from "../../public/image.png"
 import { Product } from "@/utils/types";
 
 
@@ -13,12 +12,6 @@ export default function ProductCard({ product }: { product: Product }) {
     <Link href={"/product/" + product.id}>
       <Card className="group relative space-y-4 overflow-hidden">
         <figure className="group-hover:opacity-90">
-          <Button
-            variant="ghost"
-            size="icon"
-            className="bg-white/70 absolute top-3 end-3 rounded-full dark:text-black">
-            <HeartIcon className="size-4" />
-          </Button>
           <Image
             className="aspect-square w-full"
             src={product?.files[0]?.url}

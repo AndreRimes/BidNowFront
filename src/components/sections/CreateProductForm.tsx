@@ -1,6 +1,6 @@
 'use client'
 import { useState } from 'react'
-import { Plus, Router, Tag, Upload, X } from 'lucide-react'
+import { Tag, Upload, X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
@@ -13,7 +13,6 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { createProduct } from '@/utils/api'
 import { useRouter } from 'next/navigation'
 import { getTags } from '@/utils/api'
-import { set } from 'react-hook-form'
 
 
 const validationSchema = Yup.object({
@@ -122,7 +121,7 @@ export default function CreateProjectForm() {
                                 formData.append(`tags[${index}]`, tag);
                             });
                         
-                            files.forEach((fileItem, index) => {
+                            files.forEach((fileItem) => {
                                 const fileObject = new File([fileItem], fileItem.name, { type: fileItem.type });
                                 formData.append('files', fileObject);
                             });
@@ -131,7 +130,7 @@ export default function CreateProjectForm() {
                         }
                     }
                     >
-                        {({ isSubmitting }) => (
+                        {({ }) => (
                             <Form className="space-y-6">
                                 <div className="space-y-2">
                                     <Label htmlFor="title">Título do produto</Label>

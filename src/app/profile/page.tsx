@@ -1,5 +1,4 @@
 import NavBar from "@/components/sections/NavBar";
-import { AspectRatio } from "@/components/ui/aspect-ratio"
 import { getSession } from "@/utils/auth";
 import UserInfo from "@/components/sections/UserInfo";
 import MyProducts from "@/components/sections/MyProducts";

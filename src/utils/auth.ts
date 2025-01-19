@@ -2,7 +2,7 @@ import axios from "axios";
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 import jwt from 'jsonwebtoken';
-import { loginUserDto, userSession } from "./types";
+import { userSession } from "./types";
 
 
 export async function updateAndPassCookies(req: Request) {
@@ -10,7 +10,7 @@ export async function updateAndPassCookies(req: Request) {
         const cookieValue = req.headers.get('cookie');
 
         const response = await axios.post(
-            "http://localhost:3333/auth/update-payload",
+            `${process.env.NEXT_PUBLIC_BACK_URL}/auth/update-payload`,
             {},
             {
                 headers: {
@@ -31,7 +31,7 @@ export async function updateAndPassCookies(req: Request) {
             headers: headers,
         });
     }catch(error){
-        // console.error(error);
+        console.error(error);
         return NextResponse.next();
     }
 }
