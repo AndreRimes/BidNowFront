@@ -11,7 +11,6 @@ export default function ProductSectionUser() {
     if (isLoading || isBidLoading) {
         return <div>Carregando produtos...</div>
     }
-    console.log(taggedProducts);
     if (error || !taggedProducts  || bidError) {
         return <div>Erro ao carregar produtos</div>
     }

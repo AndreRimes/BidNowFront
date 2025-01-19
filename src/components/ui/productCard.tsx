@@ -7,7 +7,6 @@ import { Product } from "@/utils/types";
 
 
 export default function ProductCard({ product }: { product: Product }) {
-  console.log(product);
   return (
     <Link href={"/product/" + product.id}>
       <Card className="group relative space-y-4 overflow-hidden">

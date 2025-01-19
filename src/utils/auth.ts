@@ -46,7 +46,6 @@ export function getSession(): userSession | null {
         try {
             userInfo = jwt.decode(accessToken.value) as userSession;
 
-            console.log('User info:', userInfo.exp);
 
             if (userInfo.exp < Date.now() / 1000) {
                 // cookieStore.delete('accessToken');

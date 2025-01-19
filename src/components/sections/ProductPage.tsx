@@ -49,7 +49,6 @@ export default function ProductPage({ id, user }: { id: string, user: userSessio
       transports: ['websocket'],
     });
     socket.on('bidUpdate', (updatedBid: Bid) => {
-      console.log('Updated bid received', updatedBid);
       setBids((prevBids) => [...prevBids, updatedBid]);
     });
 
