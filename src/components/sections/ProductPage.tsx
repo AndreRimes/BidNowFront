@@ -185,8 +185,9 @@ export const Btns = ({ user, product, bids }: { user: userSession | null, produc
   const { toast } = useToast();
 
   const placeBid = () => {
-    const socket = io('http://localhost:3334', {
+    const socket = io(`${process.env.NEXT_PUBLIC_BACK_URL}/ws`, {
       withCredentials: true,
+      transports: ['websocket'],
     });
 
     socket.emit('joinRoom', { productId: product.id });
