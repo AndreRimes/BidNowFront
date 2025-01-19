@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 
 
 export async function GET() {
-    const response = NextResponse.next();
+    const response = new NextResponse();
     
     response.cookies.delete('accessToken');
     response.cookies.delete('refreshToken');

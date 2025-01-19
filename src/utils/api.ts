@@ -6,11 +6,6 @@ export const api = axios.create({
     withCredentials: true,
 })
 
-export const internalAPI = axios.create({
-    baseURL: "/",
-    withCredentials: true,
-})
-
 export const createUser = async (data: createUserDto) => {
     const res = await api.post("/user", data);
     return res
@@ -22,7 +17,11 @@ export const loginUser = async (data: loginUserDto) => {
 }
 
 export const logout = async () => {
-    const res = await internalAPI.get("/api/auth/logout");
+    const res = await axios.get("/api/auth/logout",
+        {
+            withCredentials: true,
+        }
+    );
     return res
 }
 
