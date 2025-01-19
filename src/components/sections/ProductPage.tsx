@@ -59,7 +59,7 @@ export default function ProductPage({ id, user }: { id: string, user: userSessio
     return () => {
       socket.disconnect();
     };
-  }, []);
+  }, [id]);
 
   useEffect(() => {
     if(!product) return;

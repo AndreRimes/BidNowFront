@@ -36,10 +36,13 @@ export default function CreateProjectForm() {
     const [tags, setTags] = useState<string[]>([]);
     const [tagInput, setTagInput] = useState<string>('');
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-    const { data: availableTags = [], isLoading } = useQuery<Tag[]>({
+
+    const { data: availableTags = [] } = useQuery<Tag[]>({
         queryKey: ['tags'],   
         queryFn: getTags      
     });    
+
+
     const queryClient = useQueryClient();
     const {mutate: create} = useMutation({
         mutationFn: createProduct,
