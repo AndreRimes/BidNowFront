@@ -1,6 +1,6 @@
 'use client'
 import { useState } from 'react'
-import { Upload, X } from 'lucide-react'
+import { Tag, Upload, X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
@@ -9,9 +9,10 @@ import { Label } from '@/components/ui/label'
 import { Formik, Field, Form, ErrorMessage } from 'formik'
 import * as Yup from 'yup'
 import { toast } from '@/hooks/use-toast'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { createProduct } from '@/utils/api'
 import { useRouter } from 'next/navigation'
+import { getTags } from '@/utils/api'
 
 
 const validationSchema = Yup.object({
@@ -24,9 +25,21 @@ const validationSchema = Yup.object({
         .min(0, 'O preço deve ser maior ou igual a 0'),
 })
 
+type Tag = {
+    id: string;
+    name: string;
+}
+
 export default function CreateProjectForm() {
     const router = useRouter();
     const [files, setFiles] = useState<File[]>([]);
+    const [tags, setTags] = useState<string[]>([]);
+    const [tagInput, setTagInput] = useState<string>('');
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const { data: availableTags = [], isLoading } = useQuery<Tag[]>({
+        queryKey: ['tags'],   
+        queryFn: getTags      
+    });    
     const queryClient = useQueryClient();
     const {mutate: create} = useMutation({
         mutationFn: createProduct,
@@ -64,6 +77,22 @@ export default function CreateProjectForm() {
         return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i]
     }
 
+    const tagSelect = (tag: string) => {
+        if (!tags.includes(tag)) {
+            setTags([...tags, tag]);
+            setTagInput('');
+            setIsDropdownOpen(false);
+        }
+    }
+
+    const removeTag = (tag: string) => {
+        setTags(tags.filter(t => t !== tag));
+    }
+
+    const filteredTags = availableTags.filter(tag => 
+        tag.name.toLowerCase().includes(tagInput.toLowerCase())
+    )
+
     return (
         <div className="min-h-screen p-4 bg-gray-50">
             <Card className="max-w-2xl mx-auto">
@@ -87,6 +116,10 @@ export default function CreateProjectForm() {
                             formData.append("title", values.title);
                             formData.append("description", values.description);
                             formData.append("minimalPrice", values.price);
+
+                            tags.forEach((tag, index) => {
+                                formData.append(`tags[${index}]`, tag);
+                            });
                         
                             files.forEach((fileItem) => {
                                 const fileObject = new File([fileItem], fileItem.name, { type: fileItem.type });
@@ -115,6 +148,53 @@ export default function CreateProjectForm() {
                                     <Label htmlFor="price">Preço inicial do produto</Label>
                                     <Field as={Input} name="price" id="price" type="number" placeholder="0.00" className="w-full" />                                    
                                     <ErrorMessage name="price" component="div" className="text-red-500 text-sm" />
+                                </div>
+            
+
+                                <div className="space-y-2">
+                                    <Label>Tags do produto</Label>
+                                    <div className="flex gap-2">
+                                        <div className="relative w-full">
+                                            <Input
+                                                type="text"
+                                                value={tagInput}
+                                                onChange={(e) => {
+                                                    setTagInput(e.target.value);
+                                                    setIsDropdownOpen(true);  
+                                                }}
+                                                onFocus={() => setIsDropdownOpen(true)}  
+                                                onBlur={() => setTimeout(() => setIsDropdownOpen(false), 200)} 
+                                                placeholder="Digite uma tag"
+                                                className="w-full"
+                                            />
+                                            {isDropdownOpen && filteredTags.length > 0 && (
+                                                <div className="absolute w-full bg-white border rounded-md shadow-lg mt-1 z-10">
+                                                    {filteredTags.map((tag) => (
+                                                        <Button
+                                                            key={tag.id}
+                                                            variant="ghost"
+                                                            size="sm"
+                                                            className="w-full text-left"
+                                                            onClick={() => tagSelect(tag.name)}
+                                                        >
+                                                            {tag.name}
+                                                        </Button>
+                                                    ))}
+                                                </div>
+                                            )}
+                                        </div>
+                                    </div>
+                                    <div className="flex flex-wrap gap-2">
+                                        {tags.map((tag) => (
+                                            <div key={tag} className="flex items-center gap-2 px-2 py-1 bg-gray-200 rounded-full">
+                                                <span>{tag}</span>
+                                                <X
+                                                    className="h-4 w-4 cursor-pointer"
+                                                    onClick={() => removeTag(tag)}
+                                                />
+                                            </div>
+                                        ))}
+                                    </div>
                                 </div>
 
                                 <div className="space-y-4">

@@ -33,6 +33,7 @@ export type Product = {
     user: User,
     bids: Bid[],
     files: File[],
+    tags: Tags[],
 }
 
 export type User = {
@@ -59,6 +60,11 @@ export type File = {
     url: string,
 }
 
+
+export type Tags = {
+    id: string,
+    name: string
+}
 export enum ProductStatus {
     ACTIVE = "ACTIVE",
     SOLD = "SOLD",
