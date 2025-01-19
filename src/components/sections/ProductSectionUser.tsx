@@ -1,5 +1,5 @@
 "use client"
-import { useGetTaggedProducts, useGetProductsWhereUserBid } from "@/utils/useQueryHooks";
+import { useGetTaggedProducts, useGetProductsWhereUserBid, useGetAllProducts } from "@/utils/useQueryHooks";
 import CarouselSpacing from "../ui/carousel-spacing";
 
 
@@ -7,11 +7,12 @@ import CarouselSpacing from "../ui/carousel-spacing";
 export default function ProductSectionUser() {
     const { data: taggedProducts, isLoading, error } = useGetTaggedProducts();
     const {data: bidProducts, isLoading: isBidLoading, error: bidError} = useGetProductsWhereUserBid();
-    
-    if (isLoading || isBidLoading) {
+    const {data: allProducts, isLoading: isAllLoading, error: allError} = useGetAllProducts();
+
+    if (isLoading || isBidLoading || isAllLoading) {
         return <div>Carregando produtos...</div>
     }
-    if (error || !taggedProducts  || bidError) {
+    if (error || !taggedProducts || !bidProducts || bidError || allError || !allProducts) {
         return <div>Erro ao carregar produtos</div>
     }
 
@@ -22,6 +23,11 @@ export default function ProductSectionUser() {
             <div className="w-11/12">
                 <h3 className="text-xl">Todos os Recomendados: </h3>
                 <CarouselSpacing products={taggedProducts} />
+            </div>
+
+            <div className="w-11/12">
+                <h3 className="text-xl">Todos os Produtos: </h3>
+                <CarouselSpacing products={allProducts} />
             </div>
 
             <div className="w-11/12">
