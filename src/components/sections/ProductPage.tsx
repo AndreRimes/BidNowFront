@@ -17,9 +17,9 @@ import { Bid, Product, ProductStatus, userSession } from "@/utils/types"
 import { useToast } from "@/hooks/use-toast"
 import { useRouter } from "next/navigation"
 import { ConfirmationModal } from "../ui/confirmation-modal"
-import { updateProductStatus } from "@/utils/api"
+import { deleteProduct, updateProductStatus } from "@/utils/api"
 import { BuyerInfoModal } from "../ui/buyer-modal"
-import { QueryClient, useMutation } from "@tanstack/react-query"
+import { QueryClient, useMutation, useQueryClient } from "@tanstack/react-query"
 import Image from "next/image"
 
 
@@ -27,17 +27,20 @@ export default function ProductPage({ id, user }: { id: string, user: userSessio
   const { data: product, isLoading, error } = useGetProductById(id);
   const [bids, setBids] = useState(product ? product.bids : []);
 
-  // const {mutate:deleteMutate} = useMutation({
-  //   mutationFn: deleteProduct,
-  //   onSuccess: () => {
-  //     queryClient.invalidateQueries({ queryKey: ["products"] });
-  //     toast({
-  //       title: "Produto excluído com sucesso",
-  //       description: "Produto excluído com sucesso",
-  //     });
-  //     router.push("/");
-  //   },
-  // });
+  const queryClient = useQueryClient();
+  const { toast } = useToast();
+  const router = useRouter();
+  const {mutate:deleteMutate} = useMutation({
+    mutationFn: deleteProduct,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["products"] });
+      toast({
+        title: "Produto excluído com sucesso",
+        description: "Produto excluído com sucesso",
+      });
+      router.push("/");
+    },
+  });
 
 
   useEffect(() => {
@@ -82,13 +85,18 @@ export default function ProductPage({ id, user }: { id: string, user: userSessio
       
       
         <div className="space-y-4 ">
+          <div className="flex items-center justify-center w-full ">
+            <Button className="w-1/4" variant={"destructive"} onClick={() => deleteMutate(product.id)}>
+              Excluir
+            </Button>
+          </div>
           <ProductDescription product={product} />
           <Card>
             <CardHeader>
               <CardTitle>Bid History</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-              <BidHistory bids={bids} minimalPrice={product.minimalPrice} />
+              <BidHistory product={product} bids={bids} minimalPrice={product.minimalPrice} />
               <Btns user={user} product={product} bids={bids} /> 
             </CardContent>
           </Card>
@@ -143,7 +151,7 @@ const ProductDescription = ({ product }: { product: Product }) => {
 }
 
 
-export const BidHistory = ({ bids, minimalPrice }: { bids: Bid[], minimalPrice: number }) => {
+export const BidHistory = ({ bids, minimalPrice, product }: { bids: Bid[], minimalPrice: number, product: Product }) => {
   return (
     <>
       <div className="mb-4">
