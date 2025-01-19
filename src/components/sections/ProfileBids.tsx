@@ -91,7 +91,7 @@ export function UserBidsGridItem({ product, userId }: { product: Product, userId
                         <div className="text-right">
                             <p className="text-muted-foreground">Maior lance</p>
                             <p className={`font-medium ${winningBid.user.id !== userId ? 'text-destructive' : 'text-primary'}`}>
-                                ${myBid.amount.toFixed(2)}
+                                ${winningBid.amount.toFixed(2)}
                             </p>
                         </div>
                     </div>

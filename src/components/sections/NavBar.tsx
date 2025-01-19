@@ -21,7 +21,7 @@ export default function NavBar() {
         {userInfo ?(
           <>
             <Link href={"/profile"}>
-              <Button variant={"outline"}>Me Perfil</Button>
+              <Button variant={"outline"}>Meu Perfil</Button>
             </Link>
           </> 
         ): (
