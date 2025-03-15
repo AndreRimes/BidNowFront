@@ -25,7 +25,9 @@ jobs:
           ssh ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} "
             cd /home/andre/BidNowFront &&
             git pull origin main &&
-            make stop &&
-            make build &&
-            make run
+            echo '${{ secrets.DOCKER_PASSWORD }}' | sudo nerdctl login -u ${{ secrets.DOCKER_USER }} --password-stdin &&
+            sudo nerdctl build -t andrerimes/bidnow-front:latest . &&
+            sudo nerdctl push andrerimes/bidnow-front:latest &&
+            kubectl rollout restart deployment bidnow-frontend -n bidnow-namespace &&
+            kubectl rollout status deployment bidnow-frontend -n bidnow-namespace
           "
