@@ -11,7 +11,7 @@ export default function NavBar() {
       <Link href={"/"}>
         <div className="w-12 h-12 bg-[#111111] rounded-xl flex items-center justify-center ">
           <h1 className=" text-white text-3xl font-bold">
-            A
+            B
             <span className="text-primary">.</span>
           </h1>
         </div>

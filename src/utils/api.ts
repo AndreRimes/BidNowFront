@@ -12,14 +12,18 @@ export const createUser = async (data: createUserDto) => {
 }
 
 export const loginUser = async (data: loginUserDto) => {
-    const res = await axios.post("/api/auth/login", data);
+    const res = await axios.post("/api/auth/login", data, {
+        withCredentials: true,
+    });
     return res
 }
 
 export const logout = async () => {
-    const res = await axios.get("/api/auth/logout", {
-        withCredentials: true,
-    });
+    const res = await axios.get("/api/auth/logout",
+        {
+            withCredentials: true,
+        }
+    );
     return res
 }
 
