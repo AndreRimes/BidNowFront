@@ -1,5 +1,5 @@
 import axios from "axios"
-import { createUserDto, loginUserDto, Product, Tags, ProductStatus } from "./types";
+import {loginUserDto, Product, Tags, ProductStatus } from "./types";
 
 export const api = axios.create({
     baseURL: process.env.NEXT_PUBLIC_BACK_URL,
