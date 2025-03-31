@@ -17,11 +17,9 @@ export const loginUser = async (data: loginUserDto) => {
 }
 
 export const logout = async () => {
-    const res = await axios.get("/api/auth/logout",
-        {
-            withCredentials: true,
-        }
-    );
+    const res = await axios.get("/api/auth/logout", {
+        withCredentials: true,
+    });
     return res
 }
 
