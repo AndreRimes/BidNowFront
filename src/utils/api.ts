@@ -4,37 +4,18 @@ import { createUserDto, loginUserDto, Product, Tags, ProductStatus } from "./typ
 export const api = axios.create({
     baseURL: process.env.NEXT_PUBLIC_BACK_URL,
     withCredentials: true,
-})
-
-export const createUser = async (data: createUserDto) => {
-    const res = await api.post("/user", data);
-    return res
-}
+    headers: {
+        'Content-Type': 'application/json',
+    }
+});
 
 export const loginUser = async (data: loginUserDto) => {
     const res = await axios.post("/api/auth/login", data, {
         withCredentials: true,
+        headers: {
+            'Content-Type': 'application/json',
+        }
     });
-    return res
-}
-
-export const logout = async () => {
-    const res = await axios.get("/api/auth/logout",
-        {
-            withCredentials: true,
-        }
-    );
-    return res
-}
-
-export const createProduct = async (data: FormData) => {
-    const res = await api.post("/products", data, 
-        {
-            headers: {
-                'Content-Type': 'multipart/form-data'
-            }
-        }
-);
     return res;
 }
 
