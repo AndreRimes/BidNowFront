@@ -29,7 +29,7 @@ export default function Login() {
           title: "Login realizado com sucesso",
           description: "Login realizado com sucesso",
         })
-        router.push("/");
+        router.push("/userDashboard");
       }
       catch(error){
         toast({
