@@ -80,13 +80,15 @@ export default function CreateProjectForm() {
         return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i]
     }
 
+
     const tagSelect = (tag: string) => {
-        if (!tags.includes(tag)) {
-            setTags([...tags, tag]);
-            setTagInput('');
-            setIsDropdownOpen(false);
-        }
-    }
+      const normalizedTag = tag.trim();
+      if (normalizedTag && !tags.includes(normalizedTag)) {
+        setTags([...tags, normalizedTag]);
+        setTagInput('');
+        setIsDropdownOpen(false);
+      }
+    };
 
     const removeTag = (tag: string) => {
         setTags(tags.filter(t => t !== tag));
@@ -158,19 +160,25 @@ export default function CreateProjectForm() {
                                     <Label>Tags do produto</Label>
                                     <div className="flex gap-2">
                                         <div className="relative w-full">
-                                            <Input
-                                                type="text"
-                                                value={tagInput}
-                                                onChange={(e) => {
-                                                    setTagInput(e.target.value);
-                                                    setIsDropdownOpen(true);  
-                                                }}
-                                                onFocus={() => setIsDropdownOpen(true)}  
-                                                onBlur={() => setTimeout(() => setIsDropdownOpen(false), 200)} 
-                                                placeholder="Digite uma tag"
-                                                className="w-full"
-                                            />
-                                            {isDropdownOpen && filteredTags.length > 0 && (
+                                        <Input
+                                            type="text"
+                                            value={tagInput}
+                                            onChange={(e) => {
+                                                setTagInput(e.target.value);
+                                                setIsDropdownOpen(true);  
+                                            }}
+                                            onFocus={() => setIsDropdownOpen(true)}  
+                                            onBlur={() => setTimeout(() => setIsDropdownOpen(false), 200)} 
+                                            onKeyDown={(e) => {
+                                                if (e.key === 'Enter' && tagInput.trim()) {
+                                                    e.preventDefault();
+                                                    tagSelect(tagInput.trim());
+                                                }
+                                            }}
+                                            placeholder="Digite uma tag"
+                                            className="w-full"
+                                        />
+                                            {isDropdownOpen && (
                                                 <div className="absolute w-full bg-white border rounded-md shadow-lg mt-1 z-10">
                                                     {filteredTags.map((tag) => (
                                                         <Button
@@ -183,6 +191,17 @@ export default function CreateProjectForm() {
                                                             {tag.name}
                                                         </Button>
                                                     ))}
+
+                                                    {tagInput.trim() && !availableTags.some(t => t.name.toLowerCase() === tagInput.trim().toLowerCase()) && (
+                                                        <Button
+                                                            variant="ghost"
+                                                            size="sm"
+                                                            className="w-full text-left text-green-600"
+                                                            onClick={() => tagSelect(tagInput.trim())}
+                                                        >
+                                                            Criar nova tag "{tagInput.trim()}"
+                                                        </Button>
+                                                    )}
                                                 </div>
                                             )}
                                         </div>
