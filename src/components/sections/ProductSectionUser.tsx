@@ -1,11 +1,11 @@
 "use client"
-import { useGetTaggedProducts, useGetProductsWhereUserBid, useGetAllProducts } from "@/utils/useQueryHooks";
+import { useRecommendedProducts, useGetProductsWhereUserBid, useGetAllProducts } from "@/utils/useQueryHooks";
 import CarouselSpacing from "../ui/carousel-spacing";
 
 
 
 export default function ProductSectionUser() {
-    const { data: taggedProducts, isLoading, error } = useGetTaggedProducts();
+    const { data: taggedProducts, isLoading, error } = useRecommendedProducts();
     const {data: bidProducts, isLoading: isBidLoading, error: bidError} = useGetProductsWhereUserBid();
     const {data: allProducts, isLoading: isAllLoading, error: allError} = useGetAllProducts();
 

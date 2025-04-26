@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { getAllProducts, getHiglightProduct, getHiglightProducts, getMyProducts, getProductById, getProductsWhereUserBid, getProductsByUserTags } from "./api";
+import { getAllProducts, getHiglightProduct, getHiglightProducts, getMyProducts, getProductById, getProductsWhereUserBid, getProductsRecommended } from "./api";
 
 
 
@@ -16,10 +16,10 @@ export const useGetAllProducts = () => {
     return { data, isLoading, error };
 }
 
-export const useGetTaggedProducts = () => {
+export const useRecommendedProducts = () => {
     const { data, isLoading, error } = useQuery({
         queryKey: ["tagged-products", "products"],
-        queryFn: () => getProductsByUserTags(),
+        queryFn: () => getProductsRecommended(),
         refetchOnWindowFocus: true,
         refetchOnMount: true,
         refetchOnReconnect: true,

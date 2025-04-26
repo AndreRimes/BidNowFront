@@ -3,7 +3,6 @@ import { getSession } from "@/utils/auth";
 import UserInfo from "@/components/sections/UserInfo";
 import MyProducts from "@/components/sections/MyProducts";
 import ProfileBids from "@/components/sections/ProfileBids";
-import PreferredTags from "@/components/sections/PreferredTags";
 
 
 export default function Profile() {
@@ -15,7 +14,6 @@ export default function Profile() {
       <UserInfo user={user} />
       <MyProducts />
       <ProfileBids user={user} />
-      <PreferredTags />
     </div>
   )
 }
