@@ -24,6 +24,7 @@ jobs:
         run: |
           ssh ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} "
             cd /home/andre/BidNowFront &&
+            echo 'NEXT_PUBLIC_BACK_URL=${{ secrets.NEXT_PUBLIC_BACK_URL }}' > .env &&
             git pull origin main &&
             echo '${{ secrets.DOCKER_PASSWORD }}' | sudo nerdctl login -u ${{ secrets.DOCKER_USER }} --password-stdin &&
             sudo nerdctl build -t andrerimes/bidnow-front:latest . &&
