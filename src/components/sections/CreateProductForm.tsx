@@ -199,7 +199,7 @@ export default function CreateProjectForm() {
                                                             className="w-full text-left text-green-600"
                                                             onClick={() => tagSelect(tagInput.trim())}
                                                         >
-                                                            Criar nova tag "{tagInput.trim()}"
+                                                            Criar nova tag &quot;{tagInput.trim()}&quot;
                                                         </Button>
                                                     )}
                                                 </div>
