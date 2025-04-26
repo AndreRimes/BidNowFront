@@ -22,7 +22,7 @@ export default function HeroProduct() {
     }
 
     function handleClick() {
-        const socket = io('http://localhost:3334', {
+        const socket = io(`${process.env.NEXT_PUBLIC_BACK_URL}/ws`, {
             withCredentials: true,
         });
 
