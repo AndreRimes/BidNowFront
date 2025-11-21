@@ -1,0 +1,23 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+
+  "main": ".open-next/worker.js",
+
+  "name": "bidnow-open-next",
+
+  "compatibility_date": "2025-11-21",
+
+  "compatibility_flags": [
+    "nodejs_compat"
+  ],
+
+  "workers_dev": true,
+
+
+  "account_id": "",
+
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS"
+  }
+}
