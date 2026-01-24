@@ -1,4 +1,5 @@
 'use client'
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import {
   Carousel,
   CarouselContent,
@@ -6,21 +7,20 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { ScrollArea } from "@/components/ui/scroll-area"
-import { Input } from "../ui/input"
-import { Button } from "../ui/button"
-import { useGetProductById } from "@/utils/useQueryHooks"
-import { useEffect, useState } from 'react';
-import { io } from 'socket.io-client';
-import { Bid, Product, ProductStatus, userSession } from "@/utils/types"
 import { useToast } from "@/hooks/use-toast"
-import { useRouter } from "next/navigation"
-import { ConfirmationModal } from "../ui/confirmation-modal"
 import { deleteProduct, updateProductStatus } from "@/utils/api"
-import { BuyerInfoModal } from "../ui/buyer-modal"
+import { Bid, Product, ProductStatus, userSession } from "@/utils/types"
+import { useGetProductById } from "@/utils/useQueryHooks"
 import { QueryClient, useMutation, useQueryClient } from "@tanstack/react-query"
 import Image from "next/image"
+import { useRouter } from "next/navigation"
+import { useEffect, useState } from 'react'
+import { io } from 'socket.io-client'
+import { Button } from "../ui/button"
+import { BuyerInfoModal } from "../ui/buyer-modal"
+import { ConfirmationModal } from "../ui/confirmation-modal"
+import { Input } from "../ui/input"
 
 
 export default function ProductPage({ id, user }: { id: string, user: userSession | null }) {
@@ -46,8 +46,10 @@ export default function ProductPage({ id, user }: { id: string, user: userSessio
   useEffect(() => {
     const socket = io(`${process.env.NEXT_PUBLIC_BACK_URL}/ws`, {
       withCredentials: true,
-      transports: ['websocket'],
+      path: '/socket.io/',
+      transports: ['websocket', 'polling'],
     });
+
     socket.on('bidUpdate', (updatedBid: Bid) => {
       setBids((prevBids) => [...prevBids, updatedBid]);
     });
@@ -204,7 +206,8 @@ export const Btns = ({ user, product, bids }: { user: userSession | null, produc
   const placeBid = () => {
     const socket = io(`${process.env.NEXT_PUBLIC_BACK_URL}/ws`, {
       withCredentials: true,
-      transports: ['websocket'],
+      path: '/socket.io/',
+      transports: ['websocket', 'polling'],
     });
 
     socket.emit('joinRoom', { productId: product.id });

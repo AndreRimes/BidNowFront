@@ -24,6 +24,8 @@ export default function HeroProduct() {
     function handleClick() {
         const socket = io(`${process.env.NEXT_PUBLIC_BACK_URL}/ws`, {
             withCredentials: true,
+            path: '/socket.io/',
+            transports: ['websocket', 'polling'],
         });
 
 
