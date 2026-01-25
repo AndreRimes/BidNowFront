@@ -204,7 +204,7 @@ export const Btns = ({ user, product, bids }: { user: userSession | null, produc
   const { toast } = useToast();
 
   const placeBid = () => {
-    const socket = io(`${process.env.NEXT_PUBLIC_BACK_URL}/ws`, {
+    const socket = io(`https://bidnowback-ws.andrerimes.com/ws`, {
       withCredentials: true,
       path: '/socket.io/',
       transports: ['websocket', 'polling'],
