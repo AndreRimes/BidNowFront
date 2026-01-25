@@ -1,15 +1,12 @@
 name: Build and Deploy to Homelab
-
 on:
   push:
     branches:
       - main
   workflow_dispatch:
-
 env:
   DOCKER_IMAGE: andrerimes/bidnow-front
   KUBE_NAMESPACE: bidnow-namespace
-
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
@@ -42,6 +39,8 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+          build-args: |
+            NEXT_PUBLIC_BACK_URL=${{ secrets.NEXT_PUBLIC_BACK_URL }}
           cache-from: type=registry,ref=${{ env.DOCKER_IMAGE }}:buildcache
           cache-to: type=registry,ref=${{ env.DOCKER_IMAGE }}:buildcache,mode=max
 
@@ -68,14 +67,14 @@ jobs:
       - name: Set up kubectl
         uses: azure/setup-kubectl@v3
         with:
-          version: 'latest'
+          version: "latest"
 
       - name: Configure kubectl
         run: |
           mkdir -p $HOME/.kube
           echo "${{ secrets.KUBE_CONFIG }}" | base64 -d > $HOME/.kube/config
           chmod 600 $HOME/.kube/config
-          
+
       - name: Restart deployment to pull new image
         run: |
           kubectl rollout restart deployment/bidnow-frontend -n ${{ env.KUBE_NAMESPACE }}
