@@ -44,7 +44,7 @@ export default function ProductPage({ id, user }: { id: string, user: userSessio
 
 
   useEffect(() => {
-    const socket = io(`${process.env.NEXT_PUBLIC_BACK_URL}/ws`, {
+    const socket = io(`https://bidnowback-ws.andrerimes.com/ws`, {
       withCredentials: true,
       path: '/socket.io/',
       transports: ['websocket', 'polling'],
